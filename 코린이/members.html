@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -30,11 +30,6 @@
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-                
-        //추가페이지
-        $("#regi_btn").click(function() {
-            document.location.href = 'register.html';
-        });
 
         //조회
         let docs = await getDocs(collection(db, "members"));
@@ -108,7 +103,6 @@
     <section class="py-5 border-bottom" id="features">
         <div class="container px-5 my-5">
             <div class="row gx-5" id="membersList">
-                <button id="regi_btn" class="btn btn-primary">추가</button>
             </div>
         </div>
     </section>
