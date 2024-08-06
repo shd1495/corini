@@ -33,7 +33,6 @@
             position: absolute;
             top: 50%;
 
-
             width: 1000px;
             height: 800px;
 
@@ -52,9 +51,7 @@
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs, query, where, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -75,23 +72,23 @@
         let docs = await getDocs(collection(db, "members"));
         docs.forEach((doc) => {
             let row = doc.data();
-
             let docId = doc.id;
             let image = row['image'];
             let name = row['name'];
             let content = row['content'];
 
             let temp_html = `
-                <div class="card" id="${docId}" style="width: 18rem;">
-                    <img src="${image}" class="card-img-top">
-                        <div class="card-body">
-                            <h5 class="card-title">${name}</h5>
-                            <p class="card-text">${content}</p>
-                        </div>
+                <div class="card col-md-4" id="${docId}" style="width: 18rem; margin: 10px;">
+                    <img src="${image}" class="card-img-top" alt="Profile image of ${name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${name}</h5>
+                        <p class="card-text">${content}</p>
+                    </div>
                 </div>
-                `
+                `;
             $('#membersList').append(temp_html);
         });
+
 
         $("#modalClose").click(function () {
             modal.style.display = "none";
@@ -109,7 +106,7 @@
             if (docSnap.exists()) {
                 let row = docSnap.data();
 
-                let docId = doc.id;
+                let docId = docSnap.id;
                 let image = row['image'];
                 let name = row['name'];
                 let mbti = row['mbti'];
@@ -128,16 +125,35 @@
                             <p class="card-text">${email}</p>
                             <p class="card-text">${github}</p>
                             <p class="card-text">${blog}</p>
+                            
                         </div>
                 </div>
                 `
-            $('#modalBody').append(temp_html);
+                $('#modalBody').append(temp_html);
+
+
+                // 삭제 버튼 클릭 이벤트 리스너 추가
+                $('.delete-btn').click(async function () {
+                    try {
+                        // Firestore에서 문서 삭제
+                        await deleteDoc(doc(db, "members", tempId));
+
+                        // DOM에서 카드 제거
+                        $(`#${tempId}`).remove();
+                        $('#modal').hide();
+
+                        console.log(`Document with ID ${tempId} deleted successfully.`);
+                    } catch (error) {
+                        console.error("Error deleting document: ", error);
+                        // 사용자에게 오류 메시지 표시(선택 사항)
+                    }
+                });
+
             } else {
                 // docSnap.data()가 undefined인 경우
                 console.log("No such document!");
             }
         });
-
 
     </script>
 </head>
@@ -178,10 +194,11 @@
         </div>
     </header>
     <div class="modal" id="modal">
-        <div class="modal_body" >
+        <div class="modal_body">
             <div id="modalBody">
 
             </div>
+            <button class="btn btn-danger delete-btn" data-id="${docId}">삭제</button>
             <button class="btn btn-dark" id="modalClose">닫기</button>
         </div>
     </div>
