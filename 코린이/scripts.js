@@ -18,6 +18,14 @@ $("#add").click(function() {
     document.location.href = 'news_view.html';
 });
 
+$("#back").click(function() {
+    document.location.href = 'news_list.html';
+});
+
+$("#back_2").click(function() {
+    document.location.href = 'index.html';
+});
+
 $("#update").click(function() {
     document.location.href = '#';
 });

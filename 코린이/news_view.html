@@ -11,9 +11,8 @@
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -29,8 +28,37 @@
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
+        //추가 버튼 누를 시
+        $("#newsbtn").click(async function () {
+            //각 항목의 value 저장
+            const image = $('#image')[0].files[0];
+            const title = $('#title').val();
+            const content = $('#content').val();
+            const url = $('#url').val();
+
+            let imageUrl = '';
+
+            // 이미지 파일이 있는 경우에만 업로드
+            if (image) {
+                const storageRef = ref(storage, `images/${image.name}`);
+                await uploadBytes(storageRef, image);
+                imageUrl = await getDownloadURL(storageRef);
+            }
+
+            let doc = {
+                'image': imageUrl,
+                'title': title,
+                'content': content,
+                'url': url
+            };
+            await addDoc(collection(db, "news"), doc);
+            alert('저장 완료');
+            document.location.href = 'index.html';
+        });
     </script>
+
 </head>
 <body>
     <!-- Responsive navbar-->
@@ -86,8 +114,8 @@
                 <label for="url" class="form-label">URL</label>
                 <input type="text" class="form-control" id="url">
             </div>
-            <button id="registerbtn" class="btn btn-primary">추가</button>
-            <button type="btn" class="btn btn-dark">뒤로가기</button>
+            <button id="newsbtn" class="btn btn-primary">추가</button>
+            <button type="btn" class="btn btn-dark" id="back">뒤로가기</button>
         </div>
     </section>
       <!-- Footer-->
