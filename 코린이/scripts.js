@@ -7,7 +7,7 @@ $("#members").click(function() {
 });
 
 $("#join").click(function() {
-    document.location.href = '#';
+    document.location.href = 'register.html';
 });
 
 $("#news").click(function() {
