@@ -19,29 +19,52 @@
         margin: 20px 0px 20px 0px;
     }
     </style>
-    <script type="module">
-        // Firebase SDK 라이브러리 가져오기
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+     <script type="module">
+      // Firebase SDK 라이브러리 가져오기
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+      import { getFirestore, collection, getDocs, doc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // Firebase 구성 정보 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyA8dlENMMrTIdLLi2zVqtwOMgXyFfvuNCM",
-            authDomain: "sparta-21242.firebaseapp.com",
-            projectId: "sparta-21242",
-            storageBucket: "sparta-21242.appspot.com",
-            messagingSenderId: "560617751288",
-            appId: "1:560617751288:web:d19846d255dd487017710d",
-            measurementId: "G-61NJQDLK8E"
-        };
+      // Firebase 구성 정보 설정
+      const firebaseConfig = {
+          apiKey: "AIzaSyA8dlENMMrTIdLLi2zVqtwOMgXyFfvuNCM",
+          authDomain: "sparta-21242.firebaseapp.com",
+          projectId: "sparta-21242",
+          storageBucket: "sparta-21242.appspot.com",
+          messagingSenderId: "560617751288",
+          appId: "1:560617751288:web:d19846d255dd487017710d",
+          measurementId: "G-61NJQDLK8E"
+      };
 
-        // Firebase 인스턴스 초기화
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+      // Firebase 인스턴스 초기화
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
 
-    </script>
+      //조회
+      let docs = await getDocs(collection(db, "news"));
+      docs.forEach((doc) => {
+          let row = doc.data();
+          let image = row['image'];
+          let title = row['title'];
+          let content = row['content'];
+          let url = row['url'];
+
+          let temp_html = `
+            <div class="col">
+              <div class="card">
+                <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
+                  <img src="${image}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${content}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+              `;
+          $('#card').append(temp_html);
+      });
+
+  </script>
 </head>
 <body>
      <!-- Responsive navbar-->
@@ -80,43 +103,7 @@
     </header>
     <!-- Features section-->
    <div class="mycard">
-        <div class="row row-cols-1 row-cols-md-4 g-4">
-            <div class="col">
-              <div class="card">
-                <img src="..." class="card-img-top" alt="...">
-                <div class="card-body">
-                  <h5 class="card-title">아티클 제목</h5>
-                  <p class="card-text">간단한 내용이 들어가는 영역입니다.</p>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">아티클 제목</h5>
-                    <p class="card-text">간단한 내용이 들어가는 영역입니다.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">아티클 제목</h5>
-                    <p class="card-text">간단한 내용이 들어가는 영역입니다.</p>
-                  </div>
-                </div>
-              </div>
-              <div class="col">
-                <div class="card">
-                  <img src="..." class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <h5 class="card-title">아티클 제목</h5>
-                    <p class="card-text">간단한 내용이 들어가는 영역입니다.</p>
-                  </div>
-                </div>
-              </div>
+        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
           </div>
           <div class="right-button">
             <button type="button" class="btn btn-dark" id="add">게시물 등록</button>
