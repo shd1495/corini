@@ -44,6 +44,30 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+      //조회
+      let docs = await getDocs(collection(db, "news"));
+      docs.forEach((doc) => {
+          let row = doc.data();
+          let image = row['image'];
+          let title = row['title'];
+          let content = row['content'];
+          let url = row['url'];
+
+          let temp_html = `
+            <div class="col">
+              <div class="card">
+                <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
+                  <img src="${image}" class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title">${title}</h5>
+                    <p class="card-text">${content}</p>
+                  </div>
+                </a>
+              </div>
+            </div>
+              `;
+          $('#card').append(temp_html);
+      });
   </script>
 </head>
 
@@ -81,16 +105,10 @@
         </div>
       </div>
     </div>
-  </header>
-  <!-- Features section-->
-  <div class="mycard">
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-      <div class="col">
-        <div class="card">
-          <img src="..." class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">아티클 제목</h5>
-            <p class="card-text">간단한 내용이 들어가는 영역입니다.</p>
+    </header>
+    <!-- Features section-->
+   <div class="mycard">
+        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
           </div>
         </div>
       </div>
