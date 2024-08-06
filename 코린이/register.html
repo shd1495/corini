@@ -12,9 +12,8 @@
     <script type="module">
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-storage.js";
 
         // Firebase 구성 정보 설정
         const firebaseConfig = {
@@ -30,18 +29,30 @@
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const storage = getStorage(app);
 
+        //추가 버튼 누를 시
         $("#registerbtn").click(async function () {
-            let image = $('#image').val();
-            let name = $('#name').val();
-            let mbti = $('#mbti').val();
-            let email = $('#email').val();
-            let content = $('#content').val();
-            let github = $('#github').val();
-            let blog = $('#blog').val();
+            //각 항목의 value 저장
+            const image = $('#image')[0].files[0];
+            const name = $('#name').val();
+            const mbti = $('#mbti').val();
+            const email = $('#email').val();
+            const content = $('#content').val();
+            const github = $('#github').val();
+            const blog = $('#blog').val();
+
+            let imageUrl = '';
+
+            // 이미지 파일이 있는 경우에만 업로드
+            if (image) {
+                const storageRef = ref(storage, `images/${image.name}`);
+                await uploadBytes(storageRef, image);
+                imageUrl = await getDownloadURL(storageRef);
+            }
 
             let doc = {
-                'image': image,
+                'image': imageUrl,
                 'name': name,
                 'mbti': mbti,
                 'email': email,
@@ -50,7 +61,6 @@
                 'blog': blog
             };
 
-            console.log(doc);
             await addDoc(collection(db, "members"), doc);
             alert('저장 완료');
             document.location.href = 'index.html';
