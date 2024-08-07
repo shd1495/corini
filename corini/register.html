@@ -42,6 +42,7 @@
             const content = $('#content').val();
             const github = $('#github').val();
             const blog = $('#blog').val();
+            const password = $('#password').val();
 
             let imageUrl = '';
 
@@ -59,7 +60,8 @@
                 'email': email,
                 'content': content,
                 'github': github,
-                'blog': blog
+                'blog': blog,
+                'password': password
             };
 
             await addDoc(collection(db, "members"), doc);
@@ -114,15 +116,15 @@
             </div>
             <div class="mb-3">
                 <label for="name" class="form-label">이름</label>
-                <input type="text" class="form-control" id="name">
+                <input type="text" class="form-control" id="name" maxlength="6">
             </div>
             <div class="mb-3">
                 <label for="mbti" class="form-label">MBTI</label>
-                <input type="text" class="form-control" id="mbti">
+                <input type="text" class="form-control" id="mbti" maxlength="4" oninput="mbtiCheck(this)">
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email">
+                <input type="email" class="form-control" id="email" maxlength="30">
                 <div id="emailHelp" class="form-text">타인과 이메일을 공유하지 마세요.</div>
             </div>
             <div class="mb-3">
@@ -136,6 +138,11 @@
             <div class="mb-3">
                 <label for="content" class="form-label">소개</label>
                 <input type="text" class="form-control" id="content">
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">비밀번호</label>
+                <input type="number" class="form-control" id="password" pattern="\d*" maxlength="4" oninput="passwordCheck(this),
+                                                                                                             this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
             </div>
             <button id="registerbtn" class="btn btn-primary">추가</button>
             <button type="btn" class="btn btn-dark" id="back_2">뒤로가기</button>
