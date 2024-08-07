@@ -10,18 +10,6 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link rel="stylesheet" href="styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <style>
-    .mycard {
-      width: 1200px;
-      height: 500px;
-      margin: 20px auto 20px auto;
-    }
-
-    .right-button {
-      float: right;
-      margin: 20px 0px 20px 0px;
-    }
-  </style>
   <script type="module">
     // Firebase SDK 라이브러리 가져오기
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
@@ -44,20 +32,20 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-      //조회
-      let docs = await getDocs(collection(db, "news"));
-      docs.forEach((doc) => {
-          let row = doc.data();
-          let image = row['image'];
-          let title = row['title'];
-          let content = row['content'];
-          let url = row['url'];
+    //조회
+    let docs = await getDocs(collection(db, "news"));
+    docs.forEach((doc) => {
+      let row = doc.data();
+      let image = row['image'];
+      let title = row['title'];
+      let content = row['content'];
+      let url = row['url'];
 
-          let temp_html = `
+      let temp_html = `
             <div class="col">
               <div class="card">
                 <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
-                  <img src="${image}" class="card-img-top" alt="...">
+                  <img src="${image}" class="card-img" alt="...">
                   <div class="card-body">
                     <h5 class="card-title">${title}</h5>
                     <p class="card-text">${content}</p>
@@ -66,8 +54,8 @@
               </div>
             </div>
               `;
-          $('#card').append(temp_html);
-      });
+      $('#card').append(temp_html);
+    });
   </script>
 </head>
 
@@ -105,15 +93,13 @@
         </div>
       </div>
     </div>
-    </header>
-    <!-- Features section-->
-   <div class="mycard">
-        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
-          </div>
-        </div>
-    </div>
+  </header>
+  <!-- Features section-->
+  <div class="mycard">
     <div class="right-button">
-      <button type="button" class="btn btn-dark"id="add">게시물 등록</button>
+      <button type="button" class="btn btn-dark" id="add">게시물 등록</button>
+    </div>
+    <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
     </div>
   </div>
   <!-- Footer-->
