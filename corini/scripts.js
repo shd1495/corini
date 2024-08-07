@@ -1,31 +1,21 @@
 $("#team").click(function () {
-    const indexURL = "/";
-    window.history.pushState(null, "", indexURL);
-    window.location.href = 'corini/index.html';
+    document.location.href = 'index.html';
 });
 
 $("#members").click(function () {
-    const membersURL = "/member";
-    window.history.pushState(null, "", membersURL);
-    window.location.href = 'corini/members.html';
+    document.location.href = 'members.html';
 });
 
 $("#join").click(function () {
-    const registerURL = "/join";
-    window.history.pushState(null, "", registerURL);
-    window.location.href = 'corini/register.html';
+    document.location.href = 'register.html';
 });
 
 $("#news").click(function () {
-    const news_listURL = "/news";
-    window.history.pushState(null, "", news_listURL);
-    window.location.href = 'corini/news_list.html';
+    document.location.href = 'news_list.html';
 });
 
 $("#add").click(function () {
-    const news_viewURL = "/news";
-    window.history.pushState(null, "", news_viewURL);
-    window.location.href = 'corini/news_view.html';
+    document.location.href = 'news_view.html';
 });
 
 $("#back").click(function () {
@@ -36,12 +26,20 @@ $("#back_2").click(function () {
     window.history.back();
 });
 
+$("#update").click(function () {
+    document.location.href = '#';
+});
+
+$("#delete").click(function () {
+    document.location.href = '#';
+});
+
 function mbtiCheck(e) {
     e.value = e.value.replace(/[^A-Za-z]/ig, '');
 }
 
-function passwordCheck(object) {
-    if (object.value.length > object.maxLength) {
+function passwordCheck(object){
+    if(object.value.length > object.maxLength){
         object.value = object.value.slice(0, object.maxLength);
     }
 }
