@@ -89,12 +89,30 @@
                     </div>
                     <div class="container">
                         <form action="#" class="form" id="form1">
-                        <input type="text" placeholder="${name}" class="input" value="${name}" id="name" maxlength="6" readonly />
-                        <input type="text" placeholder="${mbti}" class="input" value="${mbti}" id="mbti" maxlength="4" oninput="mbtiCheck(this) readonly/>
-                        <input type="email" placeholder="${email}" class="input" value="${email}" id="email" maxlength="30" readonly/>
-                        <input type="text" placeholder="${github}" class="input" value="${github}" id="github" readonly/>
-                        <input type="text" placeholder="${blog}" class="input" value="${blog}" id="blog" readonly/>
-                        <input type="text" placeholder="${content}" class="input" value="${content}" id="content" readonly/>
+                         <div class="input-group mb-3">
+                            <span class="input-group-text">이름</span>
+                            <input type="text" placeholder="${name}" class="form-control input" value="${name}" id="name" maxlength="6" readonly >
+                        </div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">MBTI</span>
+                            <input type="text" placeholder="${mbti}" class="form-control input" value="${mbti}" id="mbti" maxlength="4" oninput="mbtiCheck(this)" readonly >
+                        </div>
+                         <div class="input-group mb-3">
+                            <span class="input-group-text">Email</span>
+                            <input type="text" placeholder="${email}" class="form-control input" value="${email}" id="email" maxlength="30" readonly >
+                        </div>
+                         <div class="input-group mb-3">
+                            <span class="input-group-text">Github</span>
+                            <input type="text" placeholder="${github}" class="form-control input" value="${github}" id="github" maxlength="6" readonly >
+                        </div>
+                         <div class="input-group mb-3">
+                            <span class="input-group-text">Blog</span>
+                            <input type="text" placeholder="${blog}" class="form-control input" value="${blog}" id="blog" maxlength="6" readonly >
+                        </div>
+                         <div class="input-group mb-3">
+                            <span class="input-group-text">짧은 소개</span>
+                            <input type="text" placeholder="${content}" class="form-control input" value="${content}" id="content" readonly >
+                        </div>
                         </form>
                     </div>
                 </div>
@@ -143,7 +161,7 @@
             let password = await getDoc(doc(db, "members", tempId));
             let passwordCheck = password.data();
             let inputCheck = prompt("비밀번호를 입력해주세요.", "");
-            
+
             if (passwordCheck['password'] == inputCheck) {
                 $(".input").attr('readonly', false);
                 alert("이제부터 수정 가능합니다.");
@@ -166,13 +184,13 @@
 
             let updateData = {};
 
-            if (image !== undefined && image !== "") updateData.image = image;
-            if (name !== undefined && name !== "") updateData.name = name;
-            if (mbti !== undefined && mbti !== "") updateData.mbti = mbti;
-            if (email !== undefined && email !== "") updateData.email = email;
-            if (content !== undefined && content !== "") updateData.content = content;
-            if (github !== undefined && github !== "") updateData.github = github;
-            if (blog !== undefined && blog !== "") updateData.blog = blog;
+            if (image) updateData.image = image;
+            if (name) updateData.name = name;
+            if (mbti) updateData.mbti = mbti;
+            if (email) updateData.email = email;
+            if (content) updateData.content = content;
+            if (github) updateData.github = github;
+            if (blog) updateData.blog = blog;
 
             const docRef = doc(db, "members", tempId);
             try {
@@ -188,6 +206,7 @@
 </head>
 
 <body>
+    
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-5">

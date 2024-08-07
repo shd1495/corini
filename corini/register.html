@@ -51,22 +51,37 @@
                 const storageRef = ref(storage, `images/${image.name}`);
                 await uploadBytes(storageRef, image);
                 imageUrl = await getDownloadURL(storageRef);
+            } else {
+                alert("이미지가 없습니다.");
+                document.location.href = 'register.html';
             }
+            let cnt = 0;
 
-            let doc = {
-                'image': imageUrl,
-                'name': name,
-                'mbti': mbti,
-                'email': email,
-                'content': content,
-                'github': github,
-                'blog': blog,
-                'password': password
-            };
+            if (!imageUrl) alert("이미지를 넣어주세요."), cnt++;
+            if (!name) alert("이름을 입력해주세요."), cnt++;
+            if (!mbti) alert("mbti를 입력해주세요."), cnt++;
+            if (!email) alert("이메일을 입력해주세요."), cnt++;
+            if (!content) alert("소개를 입력해주세요."), cnt++;
+            if (!github) alert("깃허브 주소를 입력해주세요."), cnt++;
+            if (!blog) alert("블로그 주소를 입력해주세요."), cnt++;
+            if (!password) alert("비밀번호를 입력해주세요."), cnt++;
 
-            await addDoc(collection(db, "members"), doc);
-            alert('저장 완료');
-            document.location.href = 'index.html';
+            if (cnt === 0) {
+                let doc = {
+                    'image': imageUrl,
+                    'name': name,
+                    'mbti': mbti,
+                    'email': email,
+                    'content': content,
+                    'github': github,
+                    'blog': blog,
+                    'password': password
+                };
+                await addDoc(collection(db, "members"), doc);
+                alert('저장 완료');
+                document.location.href = 'members.html';
+            }
+            cnt = 0;
         });
     </script>
 
@@ -110,42 +125,50 @@
     <!-- Features section-->
     <section class="py-5 border-bottom" id="features">
         <div class="container px-5 my-5">
-            <div class="mb-3">
-                <label for="image" class="form-label">사진</label>
-                <input class="form-control" type="file" id="image">
-            </div>
-            <div class="mb-3">
-                <label for="name" class="form-label">이름</label>
-                <input type="text" class="form-control" id="name" maxlength="6">
-            </div>
-            <div class="mb-3">
-                <label for="mbti" class="form-label">MBTI</label>
-                <input type="text" class="form-control" id="mbti" maxlength="4" oninput="mbtiCheck(this)">
-            </div>
-            <div class="mb-3">
-                <label for="email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="email" maxlength="30">
-                <div id="emailHelp" class="form-text">타인과 이메일을 공유하지 마세요.</div>
-            </div>
-            <div class="mb-3">
-                <label for="github" class="form-label">Github</label>
-                <input type="text" class="form-control" id="github">
-            </div>
-            <div class="mb-3">
-                <label for="blog" class="form-label">Blog</label>
-                <input type="text" class="form-control" id="blog">
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">소개</label>
-                <input type="text" class="form-control" id="content">
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">비밀번호</label>
-                <input type="number" class="form-control" id="password" pattern="\d*" maxlength="4" oninput="passwordCheck(this),
+            <div class="regiForm">
+                <div class="form-group mb-3">
+                    <label for="image" class="form-label">사진</label>
+                    <input class="form-control" type="file" id="image">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="name" class="form-label">이름</label>
+                    <input type="text" class="form-control" placeholder="이름" id="name" maxlength="3">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="mbti" class="form-label">MBTI</label>
+                    <input type="text" class="form-control" id="mbti" placeholder="MBTI" maxlength="4"
+                        oninput="mbtiCheck(this)">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email@email.com" maxlength="30">
+                    <div id="emailHelp" class="form-text">타인과 이메일을 공유하지 마세요.</div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="github" class="form-label">Github</label>
+                    <input type="text" class="form-control" id="github" placeholder="깃허브 주소">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="blog" class="form-label">Blog</label>
+                    <input type="text" class="form-control" id="blog" placeholder="블로그 주소">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="content" class="form-label">소개</label>
+                    <input type="text" class="form-control" id="content" placeholder="간단한 소개">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password" class="form-label">비밀번호</label>
+                    <input type="number" class="form-control" id="password" placeholder="숫자 4자리" pattern="\d*"
+                        maxlength="4"
+                        oninput="passwordCheck(this),
                                                                                                              this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');">
+
+                </div>
+                <div class="button-group">
+                    <button id="registerbtn" class="btn btn-primary">추가</button>
+                    <button id="back" class="btn btn-dark">뒤로가기</button>
+                </div>
             </div>
-            <button id="registerbtn" class="btn btn-primary">추가</button>
-            <button type="btn" class="btn btn-dark" id="back_2">뒤로가기</button>
         </div>
     </section>
     <!-- Footer-->
