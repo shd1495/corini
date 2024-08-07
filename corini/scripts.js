@@ -19,11 +19,11 @@ $("#add").click(function () {
 });
 
 $("#back").click(function () {
-    window.history.back();
+    document.location.href = 'members.html';
 });
 
-$("#back_2").click(function () {
-    window.history.back();
+$("#back2").click(function () {
+    document.location.href = 'news_list.html';
 });
 
 $("#update").click(function () {
