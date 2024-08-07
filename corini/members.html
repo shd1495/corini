@@ -89,9 +89,9 @@
                     </div>
                     <div class="container">
                         <form action="#" class="form" id="form1">
-                        <input type="text" placeholder="${name}" class="input" value="${name}" id="name" readonly />
-                        <input type="text" placeholder="${mbti}" class="input" value="${mbti}" id="mbti" readonly/>
-                        <input type="email" placeholder="${email}" class="input" value="${email}" id="email" readonly/>
+                        <input type="text" placeholder="${name}" class="input" value="${name}" id="name" maxlength="6" readonly />
+                        <input type="text" placeholder="${mbti}" class="input" value="${mbti}" id="mbti" maxlength="4" oninput="mbtiCheck(this) readonly/>
+                        <input type="email" placeholder="${email}" class="input" value="${email}" id="email" maxlength="30" readonly/>
                         <input type="text" placeholder="${github}" class="input" value="${github}" id="github" readonly/>
                         <input type="text" placeholder="${blog}" class="input" value="${blog}" id="blog" readonly/>
                         <input type="text" placeholder="${content}" class="input" value="${content}" id="content" readonly/>
@@ -103,40 +103,57 @@
 
                 // 삭제 버튼 클릭 이벤트 리스너 추가
                 $('.delete-btn').click(async function () {
-                    let result = confirm("정말로 삭제하시겠습니다?");
-                    if (result) {
-                        try {
-                            // Firestore에서 문서 삭제
-                            await deleteDoc(doc(db, "members", tempId));
 
-                            // DOM에서 카드 제거
-                            $(`#${tempId}`).remove();
-                            $('#modal').hide();
-                            //새로고침
-                            location.reload(true);
+                    let password = await getDoc(doc(db, "members", tempId));
+                    let passwordCheck = password.data();
+                    let inputCheck = prompt("비밀번호를 입력해주세요.", "");
 
-                            console.log(`Document with ID ${tempId} deleted successfully.`);
-                        } catch (error) {
-                            console.error("Error deleting document: ", error);
-                            // 사용자에게 오류 메시지 표시(선택 사항)
+                    if (passwordCheck['password'] == inputCheck) {
+                        let result = confirm("정말로 삭제하시겠습니다?");
+                        if (result) {
+                            try {
+                                // Firestore에서 문서 삭제
+                                await deleteDoc(doc(db, "members", tempId));
+
+                                // DOM에서 카드 제거
+                                $(`#${tempId}`).remove();
+                                $('#modal').hide();
+                                //새로고침
+                                location.reload(true);
+
+                                console.log(`Document with ID ${tempId} deleted successfully.`);
+                            } catch (error) {
+                                console.error("Error deleting document: ", error);
+                                // 사용자에게 오류 메시지 표시(선택 사항)
+                            }
                         }
+                    } else {
+                        alert("올바른 비밀번호를 입력해주세요.");
                     }
                 });
-
             } else {
                 // docSnap.data()가 undefined인 경우
                 console.log("No such document!");
             }
         });
-        $(document).on('click', '#modalUpdate', function () {
+        $(document).on('click', '#modalUpdate', async function () {
 
-            $(".input").attr('readonly', false);
-            alert("이제부터 수정 가능합니다.");
-            $("#update").show();
+            let tempId = $(".img-box").attr("id");
+
+            let password = await getDoc(doc(db, "members", tempId));
+            let passwordCheck = password.data();
+            let inputCheck = prompt("비밀번호를 입력해주세요.", "");
+            
+            if (passwordCheck['password'] == inputCheck) {
+                $(".input").attr('readonly', false);
+                alert("이제부터 수정 가능합니다.");
+                $("#update").show();
+            } else {
+                alert("올바른 비밀번호를 입력해주세요.");
+            }
         });
 
         $(document).on('click', '#update', async function () {
-            let tempId = $(".img-box").attr("id");
             console.log(tempId);
 
             let image = $("#image").val();
