@@ -1,35 +1,45 @@
-$("#team").click(function() {
+$("#team").click(function () {
     document.location.href = 'index.html';
 });
 
-$("#members").click(function() {
+$("#members").click(function () {
     document.location.href = 'members.html';
 });
 
-$("#join").click(function() {
+$("#join").click(function () {
     document.location.href = 'register.html';
 });
 
-$("#news").click(function() {
+$("#news").click(function () {
     document.location.href = 'news_list.html';
 });
 
-$("#add").click(function() {
+$("#add").click(function () {
     document.location.href = 'news_view.html';
 });
 
-$("#back").click(function() {
+$("#back").click(function () {
     document.location.href = 'news_list.html';
 });
 
-$("#back_2").click(function() {
+$("#back_2").click(function () {
     document.location.href = 'index.html';
 });
 
-$("#update").click(function() {
+$("#update").click(function () {
     document.location.href = '#';
 });
 
-$("#delete").click(function() {
+$("#delete").click(function () {
     document.location.href = '#';
 });
+
+function mbtiCheck(e) {
+    e.value = e.value.replace(/[^A-Za-z]/ig, '');
+}
+
+function passwordCheck(object){
+    if(object.value.length > object.maxLength){
+        object.value = object.value.slice(0, object.maxLength);
+    }
+}
