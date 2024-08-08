@@ -13,27 +13,27 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="module">
 
-            // Firebase SDK 라이브러리 가져오기
-            import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-            import { getFirestore, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-            import { collection, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-            import { getDocs, query, where, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, getDoc, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, query, where, doc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-            // Firebase 구성 정보 설정
-            const firebaseConfig = {
-                apiKey: "AIzaSyA8dlENMMrTIdLLi2zVqtwOMgXyFfvuNCM",
-                authDomain: "sparta-21242.firebaseapp.com",
-                projectId: "sparta-21242",
-                storageBucket: "sparta-21242.appspot.com",
-                messagingSenderId: "560617751288",
-                appId: "1:560617751288:web:d19846d255dd487017710d",
-                measurementId: "G-61NJQDLK8E"
-            };
+        // Firebase 구성 정보 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyA8dlENMMrTIdLLi2zVqtwOMgXyFfvuNCM",
+            authDomain: "sparta-21242.firebaseapp.com",
+            projectId: "sparta-21242",
+            storageBucket: "sparta-21242.appspot.com",
+            messagingSenderId: "560617751288",
+            appId: "1:560617751288:web:d19846d255dd487017710d",
+            measurementId: "G-61NJQDLK8E"
+        };
 
-            // Firebase 인스턴스 초기화
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-            
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
         $(document).ready(async function () {
 
             //조회
@@ -61,34 +61,37 @@
             });
 
 
+            let cardCnt = 0;
             $("#modalClose").click(function () {
                 modal.style.display = "none";
                 $("#modalBody").empty();
                 $("#update").hide();
+                cardCnt = 0;
             });
 
             //card를 눌렀을 때 모달창을 띄우고 모달창에 상세 정보 표시
             $(document).on('click', '.card', async function () {
-                modal.style.display = "flex";
-                let tempId = $(this).attr("id");
-                $("#update").hide();
+                if (cardCnt === 0) {
+                    modal.style.display = "flex";
+                    let tempId = $(this).attr("id");
+                    $("#update").hide();
 
-                const docRef = doc(db, "members", tempId);
-                const docSnap = await getDoc(docRef);
+                    const docRef = doc(db, "members", tempId);
+                    const docSnap = await getDoc(docRef);
 
-                if (docSnap.exists()) {
-                    let row = docSnap.data();
+                    if (docSnap.exists()) {
+                        let row = docSnap.data();
 
-                    let docId = docSnap.id;
-                    let image = row['image'];
-                    let name = row['name'];
-                    let mbti = row['mbti'];
-                    let email = row['email'];
-                    let content = row['content'];
-                    let github = row['github'];
-                    let blog = row['blog'];
+                        let docId = docSnap.id;
+                        let image = row['image'];
+                        let name = row['name'];
+                        let mbti = row['mbti'];
+                        let email = row['email'];
+                        let content = row['content'];
+                        let github = row['github'];
+                        let blog = row['blog'];
 
-                    let temp_html = `
+                        let temp_html = `
                 
                 <div class="container">
                     <div class="img-box" id="${docId}">
@@ -128,41 +131,43 @@
                     </div>
                 </div>
                 `
-                    $('#modalBody').append(temp_html);
+                        $('#modalBody').append(temp_html);
+                        cardCnt++
 
-                    // 삭제 버튼 클릭 이벤트 리스너 추가
-                    $('.delete-btn').click(async function () {
+                        // 삭제 버튼 클릭 이벤트 리스너 추가
+                        $('.delete-btn').click(async function () {
 
-                        let password = await getDoc(doc(db, "members", tempId));
-                        let passwordCheck = password.data();
-                        let inputCheck = prompt("비밀번호를 입력해주세요.", "");
+                            let password = await getDoc(doc(db, "members", tempId));
+                            let passwordCheck = password.data();
+                            let inputCheck = prompt("비밀번호를 입력해주세요.", "");
 
-                        if (passwordCheck['password'] == inputCheck) {
-                            let result = confirm("정말로 삭제하시겠습니다?");
-                            if (result) {
-                                try {
-                                    // Firestore에서 문서 삭제
-                                    await deleteDoc(doc(db, "members", tempId));
+                            if (passwordCheck['password'] == inputCheck) {
+                                let result = confirm("정말로 삭제하시겠습니다?");
+                                if (result) {
+                                    try {
+                                        // Firestore에서 문서 삭제
+                                        await deleteDoc(doc(db, "members", tempId));
 
-                                    // DOM에서 카드 제거
-                                    $(`#${tempId}`).remove();
-                                    $('#modal').hide();
-                                    //새로고침
-                                    location.reload(true);
+                                        // DOM에서 카드 제거
+                                        $(`#${tempId}`).remove();
+                                        $('#modal').hide();
+                                        //새로고침
+                                        location.reload(true);
 
-                                    console.log(`Document with ID ${tempId} deleted successfully.`);
-                                } catch (error) {
-                                    console.error("Error deleting document: ", error);
-                                    // 사용자에게 오류 메시지 표시(선택 사항)
+                                        console.log(`Document with ID ${tempId} deleted successfully.`);
+                                    } catch (error) {
+                                        console.error("Error deleting document: ", error);
+                                        // 사용자에게 오류 메시지 표시(선택 사항)
+                                    }
                                 }
+                            } else {
+                                alert("올바른 비밀번호를 입력해주세요.");
                             }
-                        } else {
-                            alert("올바른 비밀번호를 입력해주세요.");
-                        }
-                    });
-                } else {
-                    // docSnap.data()가 undefined인 경우
-                    console.log("No such document!");
+                        });
+                    } else {
+                        // docSnap.data()가 undefined인 경우
+                        console.log("No such document!");
+                    }
                 }
             });
             $(document).on('click', '#modalUpdate', async function () {
