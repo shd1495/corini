@@ -187,6 +187,7 @@
         });
 
         $(document).on('click', '#update', async function () {
+            let tempId = $(".img-box").attr("id");
             console.log(tempId);
 
             let image = $("#image").val();
