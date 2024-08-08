@@ -1,2 +1,2 @@
-# 코린이
-팀 소개 웹 페이지
+# 코린이 팀 프로젝트
+https://shd1495.github.io/corini/
