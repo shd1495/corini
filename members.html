@@ -117,16 +117,20 @@
                             <input type="text" placeholder="${email}" class="form-control input" value="${email}" id="email" maxlength="30" readonly >
                         </div>
                          <div class="input-group mb-3">
-                            <span class="input-group-text">Github</span>
+                            <a href="${github}" target="_blank" style="text-decoration: none; color: inherit;">
+                                <span class="input-group-text">Github</span>
+                            </a>
                             <input type="text" placeholder="${github}" class="form-control input" value="${github}" id="github" readonly >
                         </div>
                          <div class="input-group mb-3">
-                            <span class="input-group-text">Blog</span>
+                            <a href="${blog}" target="_blank" style="text-decoration: none; color: inherit;">
+                                <span class="input-group-text">Blog</span>
+                            </a>
                             <input type="text" placeholder="${blog}" class="form-control input" value="${blog}" id="blog" readonly >
                         </div>
                          <div class="input-group mb-3">
                             <span class="input-group-text">짧은 소개</span>
-                            <input type="text" placeholder="${content}" class="form-control input" value="${content}" id="content" readonly >
+                            <textarea placeholder="${content}" class="form-control input" id="content" readonly >${content}</textarea>
                         </div>
                         </form>
                     </div>
@@ -237,6 +241,8 @@
                     <li class="nav-item"><a class="nav-link" href="https://www.instagram.com/"
                             target="_blank">Instgram</a></li>
                     <li class="nav-item"><a class="nav-link" href="https://www.youtube.com/" target="_blank">Youtube</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="https://www.github.com/" target="_blank">Github</a>
                     </li>
                 </ul>
             </div>
