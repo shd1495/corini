@@ -62,16 +62,24 @@
                 await uploadBytes(storageRef, image);
                 imageUrl = await getDownloadURL(storageRef);
             }
+            let cnt = 0;
 
-            let doc = {
-                'image': imageUrl,
-                'title': title,
-                'content': content,
-                'url': url
-            };
-            await addDoc(collection(db, "news"), doc);
-            alert('저장 완료');
-            document.location.href = 'index.html';
+            if (!imageUrl) alert("이미지를 넣어주세요."), cnt++;
+            if (!title) alert("제목을 입력해주세요."), cnt++;
+            if (!content) alert("소개를 입력해주세요."), cnt++;
+            if (!url) alert("URL을 입력해주세요."), cnt++;
+
+            if (cnt === 0) {
+                let doc = {
+                    'image': imageUrl,
+                    'title': title,
+                    'content': content,
+                    'url': url
+                };
+                await addDoc(collection(db, "news"), doc);
+                alert('저장 완료');
+                document.location.href = 'news_list.html';
+            }
         });
     </script>
 </head>
