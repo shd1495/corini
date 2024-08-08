@@ -58,7 +58,7 @@
 
             let temp_html = `
                 <div class="card col-md-4" id="${docId}" style="width: 18rem; margin: 10px;">
-                    <img src="${image}" class="card-img-top" alt="Profile image of ${name}">
+                    <img src="${image}" class="card-img-top card-img" alt="Profile image of ${name}">
                     <div class="card-body">
                         <h5 class="card-title">${name}</h5>
                         <p class="card-text">${content}</p>
@@ -187,6 +187,7 @@
         });
 
         $(document).on('click', '#update', async function () {
+            let tempId = $(".img-box").attr("id");
             console.log(tempId);
 
             let image = $("#image").val();
