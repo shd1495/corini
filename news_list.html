@@ -33,16 +33,18 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    //조회
-    let docs = await getDocs(collection(db, "news"));
-    docs.forEach((doc) => {
-      let row = doc.data();
-      let image = row['image'];
-      let title = row['title'];
-      let content = row['content'];
-      let url = row['url'];
 
-      let temp_html = `
+    $(document).ready(async function () {
+      //조회
+      let docs = await getDocs(collection(db, "news"));
+      docs.forEach((doc) => {
+        let row = doc.data();
+        let image = row['image'];
+        let title = row['title'];
+        let content = row['content'];
+        let url = row['url'];
+
+        let temp_html = `
             <div class="col">
               <div class="card col-md-4" style="width: 18rem; margin: 10px;">
                   <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
@@ -56,7 +58,8 @@
               </div>
             </div>
               `;
-      $('#card').append(temp_html);
+        $('#card').append(temp_html);
+      });
     });
   </script>
 </head>
@@ -65,22 +68,24 @@
   <!-- Responsive navbar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container px-5">
-        <a class="navbar-brand" href="index.html">코린이</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="https://www.google.com/"
-                        target="_blank"><i class="fab fa-google"></i></a></li>
-                <li class="nav-item"><a class="nav-link" href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="https://www.github.com/" target="_blank"><i class="fab fa-github"></i></a>
-                </li>
-            </ul>
-        </div>
+      <a class="navbar-brand" href="index.html">코린이</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
+          class="navbar-toggler-icon"></span></button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item"><a class="nav-link" href="https://www.google.com/" target="_blank"><i
+                class="fab fa-google"></i></a></li>
+          <li class="nav-item"><a class="nav-link" href="https://www.youtube.com/" target="_blank"><i
+                class="fab fa-youtube"></i></a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="https://www.github.com/" target="_blank"><i
+                class="fab fa-github"></i></a>
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
   <!-- Header-->
   <header class="header">
     <div class="container px-5">
@@ -91,11 +96,11 @@
     </div>
   </header>
   <!-- Features section-->
-    <div class="mainbutton">
-      <a class="btn btn-dark btn-lg px-4" id="team">Team</a>
-      <a class="btn btn-dark btn-lg px-4" id="members">Members</a>
-      <a class="btn btn-dark btn-lg px-4" id="join">Join</a>
-      <a class="btn btn-dark btn-lg px-4" id="news">News</a>
+  <div class="mainbutton">
+    <a class="btn btn-dark btn-lg px-4" id="team">Team</a>
+    <a class="btn btn-dark btn-lg px-4" id="members">Members</a>
+    <a class="btn btn-dark btn-lg px-4" id="join">Join</a>
+    <a class="btn btn-dark btn-lg px-4" id="news">News</a>
   </div>
   <div class="mycard">
     <div class="right-button">
