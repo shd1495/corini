@@ -58,14 +58,14 @@
 
       let temp_html = `
             <div class="col">
-              <div class="card">
-                <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
-                  <img src="${image}" class="card-img" alt="...">
+              <div class="card col-md-4" style="width: 18rem; margin: 10px;">
+                  <a href="${url}" target="_blank" style="text-decoration: none; color: inherit;">
+                    <img src="${image}" class="card-img-top card-img" alt="...">
+                  </a>
                   <div class="card-body">
                     <h5 class="card-title">${title}</h5>
                     <p class="card-text">${content}</p>
                   </div>
-                </a>
               </div>
             </div>
               `;
