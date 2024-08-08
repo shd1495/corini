@@ -33,40 +33,43 @@
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        //추가 버튼 누를 시
-        $("#newsbtn").click(async function () {
-            //각 항목의 value 저장
-            const image = $('#image')[0].files[0];
-            const title = $('#title').val();
-            const content = $('#content').val();
-            const url = $('#url').val();
+        $(document).ready(async function () {
 
-            let imageUrl = '';
+            //추가 버튼 누를 시
+            $("#newsbtn").click(async function () {
+                //각 항목의 value 저장
+                const image = $('#image')[0].files[0];
+                const title = $('#title').val();
+                const content = $('#content').val();
+                const url = $('#url').val();
 
-            // 이미지 파일이 있는 경우에만 업로드
-            if (image) {
-                const storageRef = ref(storage, `images/${image.name}`);
-                await uploadBytes(storageRef, image);
-                imageUrl = await getDownloadURL(storageRef);
-            }
-            let cnt = 0;
+                let imageUrl = '';
 
-            if (!imageUrl) alert("이미지를 넣어주세요."), cnt++;
-            if (!title) alert("제목을 입력해주세요."), cnt++;
-            if (!content) alert("소개를 입력해주세요."), cnt++;
-            if (!url) alert("URL을 입력해주세요."), cnt++;
+                // 이미지 파일이 있는 경우에만 업로드
+                if (image) {
+                    const storageRef = ref(storage, `images/${image.name}`);
+                    await uploadBytes(storageRef, image);
+                    imageUrl = await getDownloadURL(storageRef);
+                }
+                let cnt = 0;
 
-            if (cnt === 0) {
-                let doc = {
-                    'image': imageUrl,
-                    'title': title,
-                    'content': content,
-                    'url': url
-                };
-                await addDoc(collection(db, "news"), doc);
-                alert('저장 완료');
-                document.location.href = 'news_list.html';
-            }
+                if (!imageUrl) alert("이미지를 넣어주세요."), cnt++;
+                if (!title) alert("제목을 입력해주세요."), cnt++;
+                if (!content) alert("소개를 입력해주세요."), cnt++;
+                if (!url) alert("URL을 입력해주세요."), cnt++;
+
+                if (cnt === 0) {
+                    let doc = {
+                        'image': imageUrl,
+                        'title': title,
+                        'content': content,
+                        'url': url
+                    };
+                    await addDoc(collection(db, "news"), doc);
+                    alert('저장 완료');
+                    document.location.href = 'news_list.html';
+                }
+            });
         });
     </script>
 </head>
@@ -81,11 +84,13 @@
                 aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="https://www.google.com/"
-                            target="_blank"><i class="fab fa-google"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href="https://www.youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+                    <li class="nav-item"><a class="nav-link" href="https://www.google.com/" target="_blank"><i
+                                class="fab fa-google"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://www.youtube.com/" target="_blank"><i
+                                class="fab fa-youtube"></i></a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="https://www.github.com/" target="_blank"><i class="fab fa-github"></i></a>
+                    <li class="nav-item"><a class="nav-link" href="https://www.github.com/" target="_blank"><i
+                                class="fab fa-github"></i></a>
                     </li>
                 </ul>
             </div>
