@@ -136,6 +136,7 @@
 
                         // 삭제 버튼 클릭 이벤트 리스너 추가
                         $('.delete-btn').click(async function () {
+                            event.stopPropagation();
 
                             let password = await getDoc(doc(db, "members", tempId));
                             let passwordCheck = password.data();
